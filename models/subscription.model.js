@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import User from './user.model'
+import user from './user.model.js'
 
 const subscriptionSchema = new mongoose.Schema({
     name: {
@@ -48,7 +48,7 @@ const subscriptionSchema = new mongoose.Schema({
     },
     renewalDate: {
         type: Date,
-        required: true,
+        // required: true,
         validate: {
             validator: function (value) {
                 return value > this.startDate
@@ -81,8 +81,6 @@ subscriptionSchema.pre('save', function(next) {
     if (this.renewalDate < new Date()) {
         this.status = 'expired'
     }
-
-    next()
 })
 
 const Subscription = mongoose.model('Subscription', subscriptionSchema)
