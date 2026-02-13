@@ -25,6 +25,7 @@ Built with **Node.js**, **Express**, **MongoDB**, and **Upstash QStash** for wor
 - **Security:** Arcjet (rate limiting, bot detection)
 - **Workflow/Scheduling:** Upstash QStash
 - **Email:** Nodemailer (Gmail)
+- **Rate limiting:** Arcjet
 
 
 ---
