@@ -48,3 +48,24 @@ export const getUserSubscription = async (req, res, next) => {
         next(error)
     }
 }
+
+export const cancelSubscription = async (req, res, next) => {
+    try {
+        const subscription = await Subscription.findById(req.params.id)
+
+        if (!subscription) {
+            return res.status(404).json({ success: false, message: 'Subscription not found' })
+        }
+
+        if (subscription.user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ success: false, message: 'You are not the owner of this subscription' })
+        }
+
+        subscription.status = 'cancelled'
+        await subscription.save()
+
+        res.status(200).json({ success: true, data: subscription })
+    } catch (error) {
+        next(error)
+    }
+}
