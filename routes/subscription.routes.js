@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import authorize from '../middlewares/auth.middleware.js'
-import { createSubscription, getUserSubscription, cancelSubscription, deleteSubscription } from '../controllers/subscription.controller.js'
+import { createSubscription, getUserSubscription, cancelSubscription, deleteSubscription, getUpcomingRenewals } from '../controllers/subscription.controller.js'
 
 const subscriptionRouter = Router()
 
@@ -18,6 +18,6 @@ subscriptionRouter.get('/users/:id', authorize, getUserSubscription)
 
 subscriptionRouter.put('/:id/cancel', authorize, cancelSubscription)
 
-subscriptionRouter.get('/upcoming-renewals', () => res.send({ title: 'GET upcoming renewals' }))
+subscriptionRouter.get('/upcoming-renewals', authorize, getUpcomingRenewals)
 
 export default subscriptionRouter

@@ -89,3 +89,16 @@ export const deleteSubscription = async (req, res, next) => {
         next(error)
     }
 }  
+
+export const getUpcomingRenewals = async (req, res, next) => {
+    try {
+        const upcomingRenewals = await Subscription.find({ 
+            nextBillingDate: { $gte: new Date(), $lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+            status: 'active'
+        }).populate('user', 'name email')
+
+        res.status(200).json({ success: true, data: upcomingRenewals })
+    } catch (error) {
+        next(error)
+    }
+}
