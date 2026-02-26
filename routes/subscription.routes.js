@@ -4,9 +4,11 @@ import { createSubscription, getUserSubscription, cancelSubscription, deleteSubs
 
 const subscriptionRouter = Router()
 
-subscriptionRouter.get('/', () => res.send({ title: 'GET all subscriptions' }))
+subscriptionRouter.get('/', (req, res) => res.send({ title: 'GET all subscriptions' }))
 
-subscriptionRouter.get('/:id', () => res.send({ title: 'GET subscription details' }))
+subscriptionRouter.get('/upcoming-renewals', authorize, getUpcomingRenewals)
+
+subscriptionRouter.get('/:id', (req, res) => res.send({ title: 'GET subscription details' }))
 
 subscriptionRouter.post('/', authorize, createSubscription)
 
@@ -17,7 +19,5 @@ subscriptionRouter.delete('/:id', authorize, deleteSubscription)
 subscriptionRouter.get('/users/:id', authorize, getUserSubscription)
 
 subscriptionRouter.put('/:id/cancel', authorize, cancelSubscription)
-
-subscriptionRouter.get('/upcoming-renewals', authorize, getUpcomingRenewals)
 
 export default subscriptionRouter
