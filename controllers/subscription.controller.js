@@ -102,3 +102,21 @@ export const getUpcomingRenewals = async (req, res, next) => {
         next(error)
     }
 }
+
+export const getSubscriptionDetails = async (req, res, next) => {
+    try {
+        const subscription = await Subscription.findById(req.params.id).populate('user', 'name email')
+
+        if (!subscription) {
+            return res.status(404).json({ success: false, message: 'Subscription not found' })
+        }
+
+        if (subscription.user._id.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ success: false, message: 'You are not the owner of this subscription' })
+        }
+
+        res.status(200).json({ success: true, data: subscription })
+    } catch (error) {
+        next(error)
+    }
+}

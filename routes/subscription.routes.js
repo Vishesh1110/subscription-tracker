@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import authorize from '../middlewares/auth.middleware.js'
-import { createSubscription, getUserSubscription, cancelSubscription, deleteSubscription, getUpcomingRenewals } from '../controllers/subscription.controller.js'
+import { createSubscription, getUserSubscription, cancelSubscription, deleteSubscription, getUpcomingRenewals, getSubscriptionDetails } from '../controllers/subscription.controller.js'
+import { get } from 'mongoose'
 
 const subscriptionRouter = Router()
 
@@ -8,7 +9,7 @@ subscriptionRouter.get('/', (req, res) => res.send({ title: 'GET all subscriptio
 
 subscriptionRouter.get('/upcoming-renewals', authorize, getUpcomingRenewals)
 
-subscriptionRouter.get('/:id', (req, res) => res.send({ title: 'GET subscription details' }))
+subscriptionRouter.get('/:id', authorize, getSubscriptionDetails)
 
 subscriptionRouter.post('/', authorize, createSubscription)
 
