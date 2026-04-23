@@ -120,3 +120,25 @@ export const getSubscriptionDetails = async (req, res, next) => {
         next(error)
     }
 }
+
+export const allSubscriptionsCost = async (req, res, next) => {
+    try {
+        const subscription = await Subscription.find({user: req.params.id})
+
+        if (!subscription) {
+            return res.status(404).json({ success: false, message: 'Subscription not found' })
+        }
+
+        if (subscription[0].user.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ success: false, message: 'You are not the owner of this subscription' })
+        }
+
+        const totalCost = subscription.reduce((sum, sub) => {
+            return sum + sub.price 
+        }, 0)
+
+        res.status(200).json({ success: true, data: { totalCost } })
+    } catch (error) {
+        next(error)
+    }
+}

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import authorize from '../middlewares/auth.middleware.js'
-import { createSubscription, getUserSubscription, cancelSubscription, deleteSubscription, getUpcomingRenewals, getSubscriptionDetails } from '../controllers/subscription.controller.js'
+import { createSubscription, getUserSubscription, cancelSubscription, deleteSubscription, getUpcomingRenewals, getSubscriptionDetails, allSubscriptionsCost } from '../controllers/subscription.controller.js'
 import { get } from 'mongoose'
 
 const subscriptionRouter = Router()
@@ -20,5 +20,7 @@ subscriptionRouter.delete('/:id', authorize, deleteSubscription)
 subscriptionRouter.get('/users/:id', authorize, getUserSubscription)
 
 subscriptionRouter.put('/:id/cancel', authorize, cancelSubscription)
+
+subscriptionRouter.get('/:id/total-cost', authorize, allSubscriptionsCost)
 
 export default subscriptionRouter
